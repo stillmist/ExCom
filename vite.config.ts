@@ -11,6 +11,12 @@ export default defineConfig(({ mode }) => {
     // Output build directory
     build: {
       outDir: "build/client",
+      sourcemap: false, // Disable sourcemaps for better PWA
+      rollupOptions: {
+        output: {
+          manualChunks: undefined, // Keep chunks together for better caching
+        },
+      },
     },
 
     plugins: [
@@ -36,24 +42,25 @@ export default defineConfig(({ mode }) => {
           scope: "/",
           icons: [
             {
-              src: "pwa-192x192.png",
+              src: "/pwa-192x192.png",
               sizes: "192x192",
               type: "image/png",
               purpose: "any",
             },
             {
-              src: "pwa-512x512.png",
+              src: "/pwa-512x512.png",
               sizes: "512x512",
               type: "image/png",
               purpose: "any",
             },
           ],
         },
+
         workbox: {
-          globDirectory: "build/client",
           globPatterns: [
             "**/*.{js,css,html,ico,png,svg,jpg,gif,json,woff,woff2,ttf,eot}",
           ],
+          additionalManifestEntries: [{ url: "index.html", revision: null }],
           navigateFallback: isProduction ? "/index.html" : undefined,
           navigateFallbackAllowlist: [/^(?!\/__).*/], // Allow all except __* paths
           // Don't cache API routes
