@@ -9,6 +9,7 @@ import {
 
 import type { Route } from "./+types/root";
 import "./app.css";
+import { useOnlineStatus } from "./hooks/useOnlineStatus";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -49,7 +50,18 @@ export function HydrateFallback() {
 }
 
 export default function App() {
-  return <Outlet />;
+  const isOnline = useOnlineStatus();
+
+  return (
+    <>
+      {!isOnline && (
+        <div className="bg-red-500 text-white px-4 sticky top-0 z-50">
+          You are currently offline. Some features may not work
+        </div>
+      )}
+      <Outlet />
+    </>
+  );
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
