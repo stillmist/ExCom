@@ -7,8 +7,12 @@ import {
   ScrollRestoration,
 } from "react-router";
 
+import { AlertCircleIcon } from "lucide-react";
 import type { Route } from "./+types/root";
 import "./app.css";
+import Nav from "./components/nav";
+import { Alert, AlertTitle } from "./components/ui/alert";
+import { Spinner } from "./components/ui/spinner";
 import { useOnlineStatus } from "./hooks/useOnlineStatus";
 
 export const links: Route.LinksFunction = () => [
@@ -35,7 +39,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body className="dark">
+      <body className=" bg-background text-foreground font-sans h-screen overflow-hidden">
         {children}
         <ScrollRestoration />
         <Scripts />
@@ -46,21 +50,33 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
 /** Shown while the UI is loading */
 export function HydrateFallback() {
-  return <div>Loading</div>;
+  return (
+    <div className="h-screen flex items-center justify-center gap-4">
+      <Spinner className="size-6" />
+      <span className="text-xl">Loading</span>
+    </div>
+  );
 }
 
 export default function App() {
   const isOnline = useOnlineStatus();
 
   return (
-    <>
+    <div className="flex flex-col h-full overflow-hidden">
+      {/** Alert when offline */}
       {!isOnline && (
-        <div className="bg-red-500 text-white px-4 sticky top-0 z-50">
-          You are currently offline. Some features may not work
+        <div className="py-1 px-4 sticky top-0 z-50">
+          <Alert variant={"destructive"}>
+            <AlertCircleIcon />
+            <AlertTitle>
+              You are currently offline. Some features may not work
+            </AlertTitle>
+          </Alert>
         </div>
       )}
+
       <Outlet />
-    </>
+    </div>
   );
 }
 

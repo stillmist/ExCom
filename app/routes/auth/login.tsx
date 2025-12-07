@@ -1,6 +1,15 @@
-import image from "public/pwa-512x512.png";
 import { Form } from "react-router";
+
+import image from "public/pwa-512x512.png";
+import { ThemeToggler } from "~/components/nav";
 import { Button } from "~/components/ui/button";
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "~/components/ui/card";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { Toaster } from "~/components/ui/sonner";
@@ -8,13 +17,30 @@ import { cn } from "~/lib/utils";
 
 export default function LoginPage() {
   return (
-    <div className="flex min-h-svh flex-col items-center justify-center bg-background -mt-28">
-      <div className="w-full max-w-sm">
-        <LoginForm />
+    <div className="flex min-h-svh flex-col items-center justify-center -translate-y-10 md:-translate-y-16 p-6 md:p-10">
+      <div className="w-full max-w-md">
+        <Card>
+          <div className="flex flex-col items-center">
+            <div className="flex h-32 w-32 items-center justify-center rounded-md">
+              <img src={image} />
+              <span className="sr-only">ExCom</span>
+            </div>
+          </div>
 
-        {/** For displaying login messages */}
-        <Toaster richColors position="top-center" />
+          <CardHeader>
+            <CardTitle>Login to Excom</CardTitle>
+            <CardAction>
+              <ThemeToggler />
+            </CardAction>
+          </CardHeader>
+          <CardContent>
+            <LoginForm />
+          </CardContent>
+        </Card>
       </div>
+
+      {/** For displaying login messages */}
+      <Toaster richColors position="top-center" />
     </div>
   );
 }
@@ -27,18 +53,6 @@ export function LoginForm({
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Form method="post">
         <div className="flex flex-col gap-6">
-          <div className="flex flex-col items-center">
-            <a
-              href="#"
-              className="flex flex-col items-center gap-2 font-medium"
-            >
-              <div className="flex h-32 w-32 items-center justify-center rounded-md">
-                <img src={image} />
-              </div>
-              <span className="sr-only">ExCom</span>
-            </a>
-            <h1 className="text-2xl font-bold -mt-4 mb-3">ExCom</h1>
-          </div>
           <div className="flex flex-col gap-6">
             <div className="grid gap-2">
               <Label htmlFor="username">Username</Label>
@@ -63,7 +77,10 @@ export function LoginForm({
               </div>
               <Input id="password" type="password" name="password" required />
             </div>
-            <Button type="submit" className="w-full bg-blue-600 text-white">
+            <Button
+              type="submit"
+              className="w-full bg-primary text-primary-foreground"
+            >
               Login
             </Button>
           </div>
