@@ -1,7 +1,6 @@
 import { Form } from "react-router";
 
-import image from "public/pwa-512x512.png";
-import { ThemeToggler } from "~/components/nav";
+import { ThemeToggle } from "~/components/theme-toggle";
 import { Button } from "~/components/ui/button";
 import {
   Card,
@@ -14,6 +13,7 @@ import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { Toaster } from "~/components/ui/sonner";
 import { cn } from "~/lib/utils";
+import image from "/pwa-512x512.png?url";
 
 export default function LoginPage() {
   return (
@@ -30,7 +30,7 @@ export default function LoginPage() {
           <CardHeader>
             <CardTitle>Login to Excom</CardTitle>
             <CardAction>
-              <ThemeToggler />
+              <ThemeToggle />
             </CardAction>
           </CardHeader>
           <CardContent>

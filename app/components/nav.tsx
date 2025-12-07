@@ -1,8 +1,9 @@
-import { Menu, SearchIcon, SunDimIcon } from "lucide-react";
+import { Menu, SearchIcon } from "lucide-react";
 
-import appIcon from "public/pwa-512x512.png";
+import { ThemeToggle } from "./theme-toggle";
 import { Button } from "./ui/button";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "./ui/input-group";
+import appIcon from "/pwa-512x512.png?url";
 
 export default function Nav() {
   return (
@@ -31,7 +32,7 @@ export default function Nav() {
 
       <div className="flex items-center gap-4">
         {/** dark / light mode toggler */}
-        <ThemeToggler />
+        <ThemeToggle />
 
         {/** Search input */}
         <div className="relative hidden md:block">
@@ -51,17 +52,5 @@ export default function Nav() {
         </div>
       </div>
     </header>
-  );
-}
-
-export function ThemeToggler() {
-  return (
-    <Button
-      variant="link"
-      size={"icon"}
-      className="text-muted-foreground hover:text-primary hover:bg-secondary rounded-lg transition-colors focus:outline-none"
-    >
-      <SunDimIcon className="size-6" />
-    </Button>
   );
 }

@@ -10,9 +10,9 @@ import {
 import { AlertCircleIcon } from "lucide-react";
 import type { Route } from "./+types/root";
 import "./app.css";
-import Nav from "./components/nav";
 import { Alert, AlertTitle } from "./components/ui/alert";
 import { Spinner } from "./components/ui/spinner";
+import { ThemeProvider } from "./context/theme";
 import { useOnlineStatus } from "./hooks/useOnlineStatus";
 
 export const links: Route.LinksFunction = () => [
@@ -30,21 +30,46 @@ export const links: Route.LinksFunction = () => [
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <head>
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        {/* manifest from pwa */}
-        <link rel="manifest" href="/manifest.webmanifest" />
-        <Meta />
-        <Links />
-      </head>
-      <body className=" bg-background text-foreground font-sans h-screen overflow-hidden">
-        {children}
-        <ScrollRestoration />
-        <Scripts />
-      </body>
-    </html>
+    <ThemeProvider>
+      <html lang="en">
+        <head>
+          <meta charSet="utf-8" />
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+          {/* manifest from pwa */}
+          <link rel="manifest" href="/manifest.webmanifest" />
+          <Meta />
+
+          {/** Prevent flashing between dark and light theme when the age is loaded. */}
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `(function () {
+                // 1. Check local storage
+                const savedTheme = localStorage.getItem("theme");
+
+                // 2. Check system preference
+                const systemDark = window.matchMedia(
+                  "(prefers-color-scheme: dark)",
+                ).matches;
+
+                // 3. Apply the class immediately before the body loads
+                if (savedTheme === "dark" || (!savedTheme && systemDark)) {
+                  document.documentElement.classList.add("dark");
+                } else {
+                  document.documentElement.classList.remove("dark");
+                }
+                })();`,
+            }}
+          ></script>
+
+          <Links />
+        </head>
+        <body className="bg-background text-foreground font-sans h-screen overflow-hidden">
+          {children}
+          <ScrollRestoration />
+          <Scripts />
+        </body>
+      </html>
+    </ThemeProvider>
   );
 }
 
