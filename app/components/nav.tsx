@@ -14,6 +14,7 @@ export default function Nav() {
           variant="link"
           size={"icon"}
           className="text-muted-foreground hover:text-primary hover:bg-secondary rounded-lg transition-colors focus:outline-none"
+          onClick={() => toggleSidebar()}
         >
           <Menu className="size-5" />
         </Button>
@@ -53,4 +54,9 @@ export default function Nav() {
       </div>
     </header>
   );
+}
+
+function toggleSidebar() {
+  const sidebar = document.getElementById("main-sidebar");
+  sidebar?.classList.toggle("collapsed");
 }

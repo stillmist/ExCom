@@ -57,9 +57,9 @@
   --popover-foreground: oklch(0.279 0.041 260.031);
   --primary: oklch(0.511 0.262 266.903);
   --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.968 0.007 247.896);
+  --secondary: oklch(0.929 0.013 255.508);
   --secondary-foreground: oklch(0.373 0.034 259.733);
-  --muted: oklch(0.968 0.007 247.896);
+  --muted: oklch(0.87 0.02 255.508);
   --muted-foreground: oklch(0.551 0.027 264.364);
   --accent: oklch(0.97 0.013 254.604); /* Used for active files/hovers */
   --accent-foreground: oklch(0.511 0.262 266.903);
@@ -76,7 +76,7 @@
   --sidebar-foreground: oklch(0.446 0.03 256.802);
   --sidebar-primary: oklch(0.511 0.262 266.903);
   --sidebar-primary-foreground: oklch(1 0 0);
-  --sidebar-accent: oklch(1 0 0);
+  --sidebar-accent: oklch(0.945 0.025 260.031);
   --sidebar-accent-foreground: oklch(0.279 0.041 260.031);
   --sidebar-border: oklch(0.929 0.013 255.508);
   --sidebar-ring: oklch(0.511 0.262 266.903);
@@ -93,7 +93,7 @@
   --primary-foreground: oklch(0.208 0.042 265.755);
   --secondary: oklch(0.279 0.041 260.031);
   --secondary-foreground: oklch(0.984 0.003 247.858);
-  --muted: oklch(0.279 0.041 260.031);
+  --muted: oklch(0.4 0.041 260.031);
   --muted-foreground: oklch(0.704 0.04 256.788);
   --accent: oklch(0.279 0.041 260.031);
   --accent-foreground: oklch(0.707 0.165 254.624);
@@ -139,4 +139,45 @@
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
+}
+
+.active-nav {
+  background-color: var(--sidebar-accent);
+  color: var(--accent-foreground);
+  font-weight: 600;
+}
+
+/* Transitions for Sidebar Toggle */
+.submenu {
+  transition:
+    max-height 0.3s ease-out,
+    opacity 0.3s ease-out;
+  max-height: 500px;
+  opacity: 1;
+  overflow: hidden;
+}
+.submenu.collapsed {
+  max-height: 0;
+  opacity: 0;
+}
+.rotate-icon {
+  transition: transform 0.2s;
+}
+.rotate-icon.collapsed {
+  transform: rotate(-90deg);
+}
+
+/* Sidebar Transition */
+#main-sidebar {
+  transition:
+    width 0.3s ease-in-out,
+    padding 0.3s ease,
+    opacity 0.2s ease;
+}
+#main-sidebar.collapsed {
+  width: 0;
+  padding: 0;
+  opacity: 0;
+  overflow: hidden;
+  border: none;
 }
