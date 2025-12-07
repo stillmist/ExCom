@@ -1,5 +1,6 @@
 import { Menu, SearchIcon } from "lucide-react";
 
+import { toggleSidebar } from "./sidebar";
 import { ThemeToggle } from "./theme-toggle";
 import { Button } from "./ui/button";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "./ui/input-group";
@@ -54,9 +55,4 @@ export default function Nav() {
       </div>
     </header>
   );
-}
-
-function toggleSidebar() {
-  const sidebar = document.getElementById("main-sidebar");
-  sidebar?.classList.toggle("collapsed");
 }

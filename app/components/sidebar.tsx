@@ -8,15 +8,25 @@ import {
   ScrollIcon,
   Settings,
 } from "lucide-react";
-import type { ComponentProps, ReactNode } from "react";
+import { type ComponentProps, type ReactNode } from "react";
+import { useIsMobile } from "~/hooks/useIsMobile";
 import { Button } from "./ui/button";
 
 export default function Sidebar() {
+  const isMobile = useIsMobile();
+
   return (
     <>
+      {isMobile && (
+        <div
+          id="blur-sheet"
+          className="hidden fixed top-16 inset-0 z-40 bg-background/30 backdrop-blur-sm transition-opacity"
+          onClick={() => toggleSidebar()}
+        />
+      )}
       <nav
         id="main-sidebar"
-        className="w-64 bg-sidebar border-r border-sidebar-border flex flex-col shrink-0 z-10 whitespace-nowrap"
+        className={`absolute inset-y-0 w-64 bg-sidebar border-r border-sidebar-border flex flex-col shrink-0 z-50 whitespace-nowrap collapsed`}
       >
         <div className="p-4 space-y-1">
           <NavButton
@@ -70,6 +80,18 @@ export default function Sidebar() {
       </nav>
     </>
   );
+}
+
+export function toggleSidebar() {
+  const sidebar = document.getElementById("main-sidebar");
+  const sheet = document.getElementById("blur-sheet");
+  sheet?.classList.add("hidden");
+
+  sidebar?.classList.toggle("collapsed");
+
+  sidebar?.classList.contains("collapsed")
+    ? sheet?.classList.add("hidden")
+    : sheet?.classList.remove("hidden");
 }
 
 type NavButtonProps = {

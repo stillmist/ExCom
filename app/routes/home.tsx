@@ -8,7 +8,7 @@ export function meta({}: Route.MetaArgs) {
 
 export default function Home() {
   return (
-    <div className="flex-1 flex overflow-hidden">
+    <div className="flex-1 flex overflow-hidden relative">
       <Sidebar />
       <main className="flex-1 overflow-hidden relative bg-background">
         <Dashboard />

@@ -5,7 +5,10 @@ import RecentDocs from "./recent-docs";
 
 export default function Dashboard() {
   return (
-    <div id="view-dashboard" className="h-full overflow-y-auto p-8 fade-in">
+    <div
+      id="view-dashboard"
+      className="h-full overflow-y-auto py-8 px-4 fade-in"
+    >
       <div className="max-w-6xl mx-auto">
         {/** Welcome header */}
         <div className="mb-8">
