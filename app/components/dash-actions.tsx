@@ -46,14 +46,14 @@ const Actions: Action[] = [
     title: "Submit Agenda Item",
     description: "Propose topics for the next executive meeting.",
     icon: <CalendarPlus2Icon className="size-6" />,
-    color: "2",
+    color: "3",
   },
   {
     id: "dash-btn-policies",
     title: "Review Policies",
     description: "Access the latest guidelines.",
     icon: <ScaleIcon className="size-6" />,
-    color: "3",
+    color: "2",
   },
   {
     id: "dash-btn-minutes",
