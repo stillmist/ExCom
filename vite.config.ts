@@ -60,11 +60,9 @@ export default defineConfig(({ mode }) => {
           globPatterns: [
             "**/*.{js,css,html,ico,png,svg,jpg,gif,json,woff,woff2,ttf,eot}",
           ],
-          additionalManifestEntries: [{ url: "index.html", revision: null }],
           navigateFallback: isProduction ? "/index.html" : undefined,
           navigateFallbackAllowlist: [/^(?!\/__).*/], // Allow all except __* paths
-          // Don't cache API routes
-          navigateFallbackDenylist: [/^\/api/, /^\/auth/, /^\/_/],
+          navigateFallbackDenylist: [/^\/api/, /^\/auth/, /^\/_/], // Don't cache API routes
           runtimeCaching: [
             // Cache navigation requests for SPA
             {
