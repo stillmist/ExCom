@@ -20,7 +20,7 @@ export default function Sidebar() {
       {isMobile && (
         <div
           id="blur-sheet"
-          className="hidden fixed top-16 inset-0 z-40 bg-background/30 backdrop-blur-sm transition-opacity"
+          className="hidden absolute inset-0 z-40 bg-background/30 backdrop-blur-sm transition-opacity"
           onClick={() => toggleSidebar()}
         />
       )}

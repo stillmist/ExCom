@@ -139,6 +139,7 @@
   max-height: 500px;
   opacity: 1;
   overflow: hidden;
+  will-change: max-height opacity;
 }
 .submenu.collapsed {
   max-height: 0;
@@ -153,15 +154,13 @@
 
 /* Sidebar Transition */
 #main-sidebar {
-  transition:
-    width 0.3s ease-in-out,
-    padding 0.3s ease,
-    opacity 0.2s ease;
+  transform: translateX(0); /* Shown */
+  transition: transform 0.3s ease-in-out;
+  will-change: transform;
 }
+
 #main-sidebar.collapsed {
-  width: 0;
-  padding: 0;
-  opacity: 0;
+  transform: translateX(-100%); /* Hidden */
   overflow: hidden;
   border: none;
 }
