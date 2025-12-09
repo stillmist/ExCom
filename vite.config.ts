@@ -60,9 +60,19 @@ export default defineConfig(({ mode }) => {
           globPatterns: [
             "**/*.{js,css,html,ico,png,svg,jpg,gif,json,woff,woff2,ttf,eot}",
           ],
+
+          additionalManifestEntries: [
+            {
+              url: "index.html",
+              // This ensures the SW treats every build as a "New Version" of index.html.
+              revision: `${Date.now()}`,
+            },
+          ],
+
           navigateFallback: isProduction ? "/index.html" : undefined,
           navigateFallbackAllowlist: [/^(?!\/__).*/], // Allow all except __* paths
           navigateFallbackDenylist: [/^\/api/, /^\/auth/, /^\/_/], // Don't cache API routes
+
           runtimeCaching: [
             // Cache navigation requests for SPA
             {
