@@ -14,6 +14,7 @@ export default function DashActions() {
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
       {Actions.map((action) => (
         <ActionCard
+          key={action.id}
           id={action.id}
           title={action.title}
           description={action.description}
@@ -56,7 +57,7 @@ const Actions: Action[] = [
     color: "2",
   },
   {
-    id: "dash-btn-minutes",
+    id: "dash-btn-minutes-1",
     title: "Open Constitution",
     description: "Read the founding document.",
     icon: <ScrollIcon className="size-6" />,

@@ -1,12 +1,14 @@
 import { Menu, SearchIcon } from "lucide-react";
 
-import { toggleSidebar } from "./sidebar";
+import { useSidebar } from "~/hooks/useSidebar";
 import { ThemeToggle } from "./theme-toggle";
 import { Button } from "./ui/button";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "./ui/input-group";
 import appIcon from "/pwa-512x512.png?url";
 
 export default function Nav() {
+  const toggleSidebar = useSidebar((state) => state.toggle);
+
   return (
     <header className="bg-card border-b border-border h-16 flex items-center justify-between px-6 shrink-0 z-20 relative shadow-sm">
       <div className="flex items-center gap-4">

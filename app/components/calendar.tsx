@@ -37,7 +37,10 @@ export default function Calendar() {
 
       <div className="grid grid-cols-7 gap-4 mb-2 text-center border-b border-border pb-2">
         {Days.map((day) => (
-          <div className="text-xs font-bold text-muted-foreground uppercase">
+          <div
+            key={day}
+            className="text-xs font-bold text-muted-foreground uppercase"
+          >
             {day}
           </div>
         ))}

@@ -35,7 +35,10 @@ export default function RecentDocs() {
         ) : (
           recentUpdates.map((update) => {
             return (
-              <div className="flex items-center p-4 border border-b last:border-0 hover:bg-accent transition-colors cursor-pointer">
+              <div
+                key={update.id}
+                className="flex items-center p-4 border border-b last:border-0 hover:bg-accent transition-colors cursor-pointer"
+              >
                 <div
                   className={`w-10 h-10 rounded-lg ${Colors[update.category]} flex items-center justify-center shrink-0 mr-4`}
                 >
