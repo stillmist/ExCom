@@ -2,10 +2,16 @@ import clsx from "clsx";
 import {
   ArrowDownNarrowWide,
   ArrowDownToLineIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  Clock3Icon,
+  DotIcon,
   FilePenIcon,
   FileTextIcon,
   FilterIcon,
   SaveIcon,
+  ScaleIcon,
+  ScrollIcon,
   Trash2Icon,
 } from "lucide-react";
 import { useState, type ComponentProps, type ReactNode } from "react";
@@ -31,7 +37,11 @@ export default function SplitExplorer({
    * keep track of the current state for selective UI rendering
    */
   const [isEditing, setIsEditing] = useState(false);
-  const [isFileOpen, setFileOpen] = useState(true);
+  const [isFileOpen, setIsFileOpen] = useState(false);
+
+  const [selectedFile, setSelectedFile] = useState<FileType | undefined>(
+    undefined,
+  );
 
   const isMobile = useIsMobile();
 
@@ -66,8 +76,22 @@ export default function SplitExplorer({
             </Button>
           </div>
         </div>
-        <div id="file-list-container" className="flex-1 overflow-y-auto">
-          {/* Populated when page loads */}
+        <div className="flex-1 overflow-y-auto">
+          {files.map((file) =>
+            file.category === currentFileCategory ? (
+              <FileListItem
+                key={file.id}
+                file={file}
+                onClick={() => {
+                  setSelectedFile(file);
+                  setIsFileOpen(true);
+                }}
+                className={`${selectedFile?.id === file.id ? "bg-accent border-l border-l-accent-foreground" : ""}`}
+              />
+            ) : (
+              <></>
+            ),
+          )}
         </div>
       </aside>
 
@@ -81,19 +105,31 @@ export default function SplitExplorer({
         {/* Toolbar */}
         <div className="h-28 md:h-14 bg-card border-b border-border grid grid-cols-1 md:flex items-center justify-between px-2 md:px-6 shrink-0">
           <div className="flex items-center gap-2 overflow-hidden flex-1 mr-0 md:mr-4">
+            <Button
+              variant="ghost"
+              size="icon-lg"
+              className="me-3 hover:text-accent-foreground cursor-pointer"
+              onClick={() => {
+                setIsFileOpen(false);
+                setSelectedFile(undefined);
+              }}
+            >
+              <ChevronLeftIcon className="size-6 md:hidden" />
+            </Button>
             <span className="bg-accent text-accent-foreground text-xs px-2 py-0.5 rounded font-medium uppercase shrink-0">
-              {currentFileCategory}
+              {isFileOpen ? selectedFile?.category : currentFileCategory}
             </span>
             <h2 className="font-bold text-base md:text-lg text-card-foreground truncate">
               {/** Show document title when a document is selected */}
-              Select a document
+              {isFileOpen ? selectedFile?.title : "Select a document"}
             </h2>
             <span className="text-muted-foreground text-xs ml-2 shrink-0 whitespace-nowrap">
-              {/** Date document was updated */} 23rd Dec 2025
+              {/** Date document was updated */}
+              {isFileOpen ? selectedFile?.date : ""}
             </span>
           </div>
 
-          <div className="mb-1 md:mb-0 flex items-center gap-3 shrink-0">
+          <div className="mb-1 md:mb-0 flex justify-end items-center gap-3 shrink-0">
             <div id="secretary-actions" className="flex gap-2 items-center">
               {/* Import Button */}
               <input
@@ -192,6 +228,101 @@ export default function SplitExplorer({
     </div>
   );
 }
+
+function FileListItem({
+  file,
+  className,
+  ...props
+}: { file: FileType } & ComponentProps<"div">) {
+  return (
+    <div
+      className={`flex items-center p-4 border-b hover:bg-accent transition-colors cursor-pointer ${className}`}
+      {...props}
+    >
+      <div
+        className={`w-9 h-9 rounded-lg ${Colors[file.category]} flex items-center justify-center shrink-0 mr-4`}
+      >
+        {Icons[file.category]}
+      </div>
+      <div className="flex-1 min-w-0 mr-4">
+        <h4 className="font-medium text-cardtext-card-foreground text-sm truncate mb-1">
+          {file.title}
+        </h4>
+        <div className="flex items-center justify-start md:justify-between text-xs text-muted-foreground">
+          <span>{file.author}</span>
+          <DotIcon className="size-6 md:hidden" />
+          <span>{file.date}</span>
+        </div>
+      </div>
+      <ChevronRightIcon className="size-5 md:hidden" />
+    </div>
+  );
+}
+
+type CategoryIconsMap = Record<Category, ReactNode>;
+
+const Icons: CategoryIconsMap = {
+  "": "",
+  minutes: <Clock3Icon className="stroke-chart-1 rounded-full size-5" />,
+  policies: <ScaleIcon className="stroke-chart-2 rounded-full size-5" />,
+  constitution: <ScrollIcon className="stroke-chart-4 rounded-full size-5" />,
+};
+
+type CategoryColorsMap = Record<Category, string>;
+
+const Colors: CategoryColorsMap = {
+  "": "",
+  minutes: "bg-chart-1/20",
+  policies: "bg-chart-2/20",
+  constitution: "bg-chart-4/20",
+};
+
+type Category = "" | "minutes" | "policies" | "constitution";
+
+type FileType = {
+  id: number;
+  category: FileCategoryType;
+  title: string;
+  author: string;
+  date: string;
+};
+const files: FileType[] = [
+  {
+    id: 1,
+    category: "minutes",
+    title: "Random minutes 1",
+    author: "Jane One",
+    date: "23rd Dec 2025",
+  },
+  {
+    id: 2,
+    category: "minutes",
+    title: "Minutes for 14th Dec 2025",
+    author: "Jane One",
+    date: "23rd Dec 2025",
+  },
+  {
+    id: 3,
+    category: "minutes",
+    title: "Minutes for 14th Dec 2025 on Something",
+    author: "Jane One",
+    date: "23rd Dec 2025",
+  },
+  {
+    id: 4,
+    category: "minutes",
+    title: "Minutes for 10th Dec 2025",
+    author: "Jane One",
+    date: "23rd Dec 2025",
+  },
+  {
+    id: 5,
+    category: "policies",
+    title: "Random policy",
+    author: "Jane One",
+    date: "23rd Dec 2025",
+  },
+];
 
 type ButtonWithTooltipProps = {
   tooltipContent: string;
