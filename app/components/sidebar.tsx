@@ -9,6 +9,7 @@ import {
   Settings,
 } from "lucide-react";
 import { useState, type ComponentProps, type ReactNode } from "react";
+import { Form } from "react-router";
 import { useIsMobile } from "~/hooks/useIsMobile";
 import { useSidebar } from "~/hooks/useSidebar";
 import type { FileCategoryType, ViewType } from "~/routes/home";
@@ -102,12 +103,14 @@ export default function Sidebar({
             <Settings className="size-5" /> Settings
           </Button>
 
-          <Button
-            variant="ghost"
-            className="cursor-pointer w-full justify-start flex items-center gap-3 px-3 py-2 text-sm font-medium text-muted-foreground hover:text-destructive transition-colors"
-          >
-            <LogOutIcon className="size-5" /> Logout
-          </Button>
+          <Form method="post" action="/logout" className="w-full">
+            <Button
+              variant="ghost"
+              className="cursor-pointer w-full justify-start flex items-center gap-3 px-3 py-2 text-sm font-medium text-muted-foreground hover:text-destructive transition-colors"
+            >
+              <LogOutIcon className="size-5" /> Logout
+            </Button>
+          </Form>
         </div>
       </nav>
     </>

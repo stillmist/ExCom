@@ -8,4 +8,5 @@ import {
 export default [
   layout("layouts/authenticated.tsx", [index("routes/home.tsx")]),
   route("login", "routes/auth/login.tsx"),
+  route("logout", "routes/auth/logout.tsx"),
 ] satisfies RouteConfig;

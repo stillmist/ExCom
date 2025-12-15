@@ -11,6 +11,7 @@ import { AlertCircleIcon } from "lucide-react";
 import type { Route } from "./+types/root";
 import "./app.css";
 import { Alert, AlertTitle } from "./components/ui/alert";
+import { Toaster } from "./components/ui/sonner";
 import { Spinner } from "./components/ui/spinner";
 import { ThemeProvider } from "./context/theme";
 import { useOnlineStatus } from "./hooks/useOnlineStatus";
@@ -67,6 +68,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
           {children}
           <ScrollRestoration />
           <Scripts />
+          <Toaster richColors position="top-center" expand />
         </body>
       </html>
     </ThemeProvider>
