@@ -8,7 +8,7 @@ import {
   ScrollIcon,
   Settings,
 } from "lucide-react";
-import { type ComponentProps, type ReactNode } from "react";
+import { useState, type ComponentProps, type ReactNode } from "react";
 import { useIsMobile } from "~/hooks/useIsMobile";
 import { useSidebar } from "~/hooks/useSidebar";
 import type { FileCategoryType, ViewType } from "~/routes/home";
@@ -28,6 +28,9 @@ export default function Sidebar({
   const isMobile = useIsMobile();
   const isOpen = useSidebar((state) => state.isOpen);
   const toggleSidebar = useSidebar((state) => state.toggle);
+
+  // Files submenu
+  const [isFilesOpen, setIsFilesOpen] = useState(false);
 
   return (
     <>
@@ -56,13 +59,25 @@ export default function Sidebar({
             <Button
               variant="ghost"
               className="cursor-pointer w-full text-left px-3 py-2 rounded-lg text-xs font-bold bg-sidebar text-muted-foreground hover:text-secondary-foreground uppercase tracking-wider flex items-center justify-between group transition-colors"
-              onClick={() => toggleSubmenu("files-submenu", "files-icon")}
+              onClick={() => setIsFilesOpen((current) => !current)}
             >
               <span>Files</span>
-              <ChevronDown id="files-icon" className="size-5 rotate-icon" />
+              <ChevronDown
+                id="files-icon"
+                className={clsx(
+                  "size-5 rotate-icon",
+                  isFilesOpen ? "" : "collapsed",
+                )}
+              />
             </Button>
 
-            <ul id="files-submenu" className="submenu mt-1 space-y-1 pl-2">
+            <ul
+              id="files-submenu"
+              className={clsx(
+                "submenu mt-1 space-y-1 pl-2",
+                isFilesOpen ? "" : "collapsed",
+              )}
+            >
               {FilesSubmenuItems.map((item) => (
                 <li key={item.id}>
                   <SubmenuButton
@@ -122,7 +137,7 @@ function NavButton({ text, icon, className, ...props }: NavButtonProps) {
 type FilesSubmenuItemType = {
   text: string;
   icon: ReactNode;
-  category: Category;
+  category: FileCategoryType;
   id: string;
 };
 
@@ -169,53 +184,4 @@ function SubmenuButton({
       {text}
     </Button>
   );
-}
-
-const Dashboard = document.getElementById("view-dashboard");
-const NavHome = document.getElementById("nav-home");
-const NavMinutes = document.getElementById("nav-minutes");
-const NavPolicies = document.getElementById("nav-policies");
-const NavConstitution = document.getElementById("nav-constitution");
-
-const Explorer = document.getElementById("view-explorer");
-
-/** Toggles the submenus */
-function toggleSubmenu(menuId: string, iconId: string) {
-  const menu = document.getElementById(menuId);
-  const icon = document.getElementById(iconId);
-  menu?.classList.toggle("collapsed");
-  icon?.classList.toggle("collapsed");
-}
-
-type Category = "minutes" | "policies" | "constitution";
-
-function showFiles(category: Category) {
-  console.log("In Here switching");
-  Dashboard?.classList.add("hidden");
-  console.log(Dashboard);
-  Explorer?.classList.remove("hidden");
-
-  const folderTitle = document.getElementById("folder-title");
-  if (folderTitle)
-    folderTitle.innerText =
-      category.charAt(0).toUpperCase() + category.slice(1);
-
-  NavHome?.classList.remove("active-nav");
-
-  const navMap: Record<Category, HTMLElement | null> = {
-    minutes: NavMinutes,
-    policies: NavPolicies,
-    constitution: NavConstitution,
-  };
-
-  Object.values(navMap).forEach((el) => {
-    el?.classList.remove("active-nav");
-  });
-
-  if (navMap[category]) {
-    navMap[category].classList.add("active-nav");
-  }
-
-  document.getElementById("files-submenu")?.classList.remove("collapsed");
-  document.getElementById("files-icon")?.classList.remove("collapsed");
 }
